@@ -13,7 +13,7 @@ module: my_module
 
 short_description: Тестовый модуль для netology.
 
-version_added: "1.0.0"
+version_added: "1.0.1"
 
 description: Тестовый модуль для netology, который создаёт файл по пути path, с именем filename и содержимым content.
 
@@ -42,16 +42,16 @@ author:
 EXAMPLES = r'''
 # Create file
 - name: Test with a file create
-  netology_mnt_13.lesson_collection.my_module:
+  netology_collection.lesson_collection.my_module:
     path: ./
     content: test content
 
 # Create file with filename new_filename
-- name: Test with a message and changed output
-  netology_mnt_13.lesson_collection.my_module:
-    path: /tmp
-    content: new content
-    filename: new_filename
+- name: Test with a file create
+  netology_collection.lesson_collection.my_module:
+    path: /home/ansible
+    content: test
+    filename: test_file
 '''
 
 RETURN = r'''
@@ -68,9 +68,9 @@ import os
 
 def run_module():
     module_args = dict(
-        path=dict(type='path', required=True, aliases=['dest', 'name']),
+        path=dict(type='path', required=True, aliases=['dest']),
         content=dict(type='str', required=True),
-        filename=dict(type='str', required=False, default='file')
+        filename=dict(type='str', required=False, default='file', aliases=['name'])
     )
 
     result = dict(
