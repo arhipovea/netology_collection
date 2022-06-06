@@ -13,7 +13,7 @@ module: my_module
 
 short_description: Тестовый модуль для netology.
 
-version_added: "1.0.1"
+version_added: "1.0.2"
 
 description: Тестовый модуль для netology, который создаёт файл по пути path, с именем filename и содержимым content.
 
