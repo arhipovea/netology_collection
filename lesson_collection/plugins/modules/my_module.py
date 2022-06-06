@@ -13,7 +13,7 @@ module: my_module
 
 short_description: Тестовый модуль для netology.
 
-version_added: "1.0.6"
+version_added: "1.0.7"
 
 description: Тестовый модуль для netology, который создаёт файл по пути path, с именем filename и содержимым content.
 
@@ -93,7 +93,7 @@ def run_module():
                 f.write(module.params['content'])
             result['changed'] = True
     except IOError as e:
-        module.fail_json(msg=e.strerror, **result)
+        module.fail_json(msg="ERROR: {}".format(e.strerror))
 
     module.exit_json(**result)
 
