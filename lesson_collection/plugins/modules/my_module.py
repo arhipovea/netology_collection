@@ -13,7 +13,7 @@ module: my_module
 
 short_description: Тестовый модуль для netology.
 
-version_added: "1.0.5"
+version_added: "1.0.6"
 
 description: Тестовый модуль для netology, который создаёт файл по пути path, с именем filename и содержимым content.
 
@@ -65,12 +65,6 @@ msg:
 from ansible.module_utils.basic import AnsibleModule
 import os
 
-class AnsibleModuleError(Exception):
-    def __init__(self, results):
-        self.results = results
-
-    def __repr__(self):
-        return 'AnsibleModuleError(results={0})'.format(self.results)
 
 def run_module():
     module_args = dict(
@@ -91,16 +85,15 @@ def run_module():
 
     fullname = os.path.join(module.params['path'], module.params['filename'])
 
-    if os.path.isfile(fullname) and open(fullname, "r").read() == module.params['content']:
-        result['changed'] = False
-    else:
-        try:
+    try:
+        if os.path.isfile(fullname) and open(fullname, "r").read() == module.params['content']:
+            result['changed'] = False
+        else:
             with open(fullname, "w") as f:
                 f.write(module.params['content'])
             result['changed'] = True
-        except IOError as e:
-            module.fail_json(msg=e.strerror, **result)
-            raise AnsibleModuleError(e.strerror)
+    except IOError as e:
+        module.fail_json(msg=e.strerror, **result)
 
     module.exit_json(**result)
 
