@@ -83,8 +83,6 @@ def run_module():
         supports_check_mode=False
     )
 
-    module.fail_json(msg="ERROR", **result)
-
     fullname = os.path.join(module.params['path'], module.params['filename'])
 
     if os.path.isfile(fullname) and open(fullname, "r").read() == module.params['content']:
@@ -93,7 +91,7 @@ def run_module():
         try:
             with open(fullname, "w") as f:
                 f.write(module.params['content'])
-        except Exception as e:
+        except IOError as e:
             module.fail_json(msg=f"ERROR: {e.strerror}")
 
     module.exit_json(changed=True, **result)
